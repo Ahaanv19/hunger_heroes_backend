@@ -1,0 +1,56 @@
+{% extends "layouts/base.html" %}
+{% set project = "Home" %}
+
+{% block body %}
+    <!-- Start of body content specific to page -->
+    <div class="px-5 py-5 mx-auto">
+        <h1 class="text-center" style="font-family: 'Georgia', serif; color: white;"><strong>Poway Auto Backend Page</strong></h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-lg" style="background-color:rgb(41, 40, 39); color: white; border-radius: 15px;">
+                    <div class="card-body">
+                    <h5 class="card-title">Purpose</h5>
+                    <ul>
+                        <li>Real-time mapping with high accuracy and detail:</li>
+                        <li>AI-driven traffic analysis for up-to-date congestion detection</li>
+                        <li>Predictive routing to optimize travel times across Poway</li>
+                        <li>Visual route display with interactive maps and travel mode selection</li>
+                        <li>Integration of real-world traffic simulation for testing and refinement</li>
+                    </ul>
+                    <a href="https://ahaanv19.github.io/Poway_Auto_Frontend/" class="btn btn-light">Visit Website</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-lg" style="background-color:rgb(36, 36, 36); color: white; border-radius: 15px;">
+                    <div class="card-body">
+                    <h5 class="card-title">Development Process</h5>
+                    <ul>
+                        <li>Plan</li>
+                        <li>Design</li>
+                        <li>Develop</li>
+                        <li>Test</li>
+                        <li>Deploy</li>
+                    </ul>
+                    <img class="card-img-bottom" src="{{ url_for('static', filename= 'assets/development.webp') }}" alt= 'Put image here' style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
+                    <a href="#" class="btn btn-light">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-lg" style="background-color:rgb(45, 44, 44); color: white; border-radius: 15px;">
+                    <div class="card-body">
+                    <h5 class="card-title">Our Team</h5>
+                    <ul>
+                        <li>Ahaan</li>
+                        <li>Arnav</li>
+                        <li>Rudransh</li>
+                        <li>Nikhil</li>
+                    </ul>
+                    <a href="https://ahaanv19.github.io/Poway_Auto_Frontend/" class="btn btn-light">Explore Features</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
