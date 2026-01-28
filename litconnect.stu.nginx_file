@@ -1,10 +1,10 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name autonomous.opencodingsociety.com;
+    server_name hungerheros.opencodingsociety.com;
 
     location / {
-        proxy_pass http://localhost:8888;
+        proxy_pass http://localhost:8288;
 
         # Preflighted requests
         if ($request_method = OPTIONS) {
