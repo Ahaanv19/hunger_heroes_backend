@@ -39,6 +39,7 @@ from api.live import incident_api
 from api.subscription import subscription_api
 from api.stripe_api import stripe_api
 from api.businesses import businesses_api
+from api.donation import donation_api
 
 # database Initialization functions
 from model.carChat import CarChat
@@ -51,6 +52,8 @@ from model.nestPost import NestPost, initNestPosts
 from model.vote import Vote, initVotes
 from model.savedLocations import SavedLocations, initSavedLocations
 from model.subscription import Subscription, SubscriptionRequest, PaymentHistory, RouteUsage, initSubscriptions
+from model.donation import Donation, initDonations
+from model.cleanup import start_cleanup_scheduler
 
 
 # server only View
@@ -78,6 +81,7 @@ app.register_blueprint(incident_api)
 app.register_blueprint(subscription_api)
 app.register_blueprint(stripe_api)
 app.register_blueprint(businesses_api)
+app.register_blueprint(donation_api)
 
 
 # Tell Flask-Login the view function name of your login route
@@ -223,6 +227,11 @@ def generate_data():
     except Exception as e:
         print(f"Error in initSubscriptions: {e}")
 
+    try:
+        initDonations()
+    except Exception as e:
+        print(f"Error in initDonations: {e}")
+
 # Backup the old database
 def backup_database(db_uri, backup_uri):
     """Backup the current database."""
@@ -244,6 +253,7 @@ def extract_data():
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
         data['locations'] = [post.read() for post in SavedLocations.query.all()]
+        data['donations'] = [d.read() for d in Donation.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -258,7 +268,7 @@ def save_data_to_json(data, directory='backup'):
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
-    for table in ['users', 'sections', 'groups', 'channels', 'posts', 'locations']:  # New entry
+    for table in ['users', 'sections', 'groups', 'channels', 'posts', 'locations', 'donations']:
         try:
             with open(os.path.join(directory, f'{table}.json'), 'r') as f:
                 data[table] = json.load(f)
@@ -275,6 +285,7 @@ def restore_data(data):
         _ = Channel.restore(data.get('channels', []))
         _ = Post.restore(data.get('posts', []))
         _ = SavedLocations.restore(data.get('locations', []))
+        Donation.restore(data.get('donations', []))
     print("Data restored to the new database.")
 
 # Define a command to backup data
@@ -293,6 +304,9 @@ def restore_data_command():
 # Register the custom command group with the Flask application
 app.cli.add_command(custom_cli)
         
+# Start the auto-cleanup scheduler for delivered donations
+start_cleanup_scheduler()
+
 # this runs the flask application on the development server
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8288)
