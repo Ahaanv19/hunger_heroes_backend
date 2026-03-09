@@ -9,7 +9,7 @@ Endpoints:
 """
 
 from flask import Blueprint, request, jsonify, g, current_app
-from services.auth_service import (
+from model.auth_service import (
     AuthService, 
     token_required, 
     rbac_required,
