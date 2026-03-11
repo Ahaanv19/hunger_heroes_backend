@@ -16,7 +16,7 @@ from model.auth_service import (
     AuthError,
     ValidationError
 )
-from utils.response import APIResponse
+from model.utils.response import APIResponse
 from model.user import User
 import logging
 
@@ -289,7 +289,7 @@ def get_user(user_id: int):
         if not user:
             return APIResponse.not_found(resource="User")
         
-        if not user._is_active:
+        if not user.is_active:
             return APIResponse.not_found(resource="User")
         
         # Return limited public data
@@ -303,7 +303,7 @@ def get_user(user_id: int):
         current_user = g.current_user
         if current_user.id == user_id or current_user._role == "Admin":
             user_data["email"] = user._email
-            user_data["is_active"] = user._is_active
+            user_data["is_active"] = user.is_active
         
         return APIResponse.success(
             data=user_data,
@@ -348,8 +348,15 @@ def update_current_user():
         if not body:
             return APIResponse.bad_request("At least one field is required for update")
         
-        # Update user
-        current_user.update(body)
+        # Whitelist allowed fields for security - prevent user from modifying role or other sensitive fields
+        allowed_fields = {"name", "password", "pfp", "uid"}
+        filtered_body = {key: value for key, value in body.items() if key in allowed_fields}
+        
+        if not filtered_body:
+            return APIResponse.bad_request("No valid fields provided for update")
+        
+        # Update user with only allowed fields
+        current_user.update(filtered_body)
         
         return APIResponse.success(
             data=current_user.read(),
