@@ -121,16 +121,8 @@ class User(db.Model, UserMixin):
         """
         return True
 
-    # UserMixin/Flask-Login requires is_active to be defined
-    @property
-    def is_active(self):
-        """
-        Indicates whether the user is active.
-        
-        Returns:
-            bool: True if the user is active, False otherwise.
-        """
-        return True
+    # is_active is handled by the database column, no need for a hardcoded property
+    # The SQLAlchemy column descriptor will manage access to the actual database value
 
     # UserMixin/Flask-Login requires is_anonymous to be defined
     @property
