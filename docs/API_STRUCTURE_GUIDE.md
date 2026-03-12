@@ -10,29 +10,19 @@ hunger_heroes_backend/
 ├── main.py                     # App entry point & blueprint registration
 ├── requirements.txt            # Python dependencies
 │
-├── model/                      # SQLAlchemy ORM models
+├── model/                      # Domain models, auth, and utilities
 │   ├── user.py                # User model with roles
 │   ├── donation.py            # Donation model
 │   ├── organization.py        # Organization model
 │   ├── food_safety_log.py     # Food safety logs
 │   ├── allergen_profile.py    # Allergen tracking
-│   └── ...
-│
-├── routes/                     # API route handlers (NEW)
-│   ├── __init__.py
 │   ├── auth.py                # Auth endpoints & user profile
-│   └── ...
-│
-├── services/                   # Business logic layer (NEW)
-│   ├── __init__.py
 │   ├── auth_service.py        # Authentication logic
-│   └── ...
-│
-├── utils/                      # Utility functions (NEW)
-│   ├── __init__.py
-│   ├── response.py            # Standardized JSON responses
-│   ├── errors.py              # Error handlers & middleware
-│   └── ...
+│   └── utils/                 # Utility functions
+│       ├── __init__.py
+│       ├── response.py        # Standardized JSON responses
+│       ├── errors.py          # Error handlers & middleware
+│       └── ...
 │
 ├── api/                        # Legacy API endpoints
 │   ├── user.py                

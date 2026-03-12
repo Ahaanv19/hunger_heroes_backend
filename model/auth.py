@@ -356,6 +356,10 @@ def update_current_user():
         if not filtered_body:
             return APIResponse.bad_request("No valid fields provided for update")
         
+        # Preserve the current email to avoid it being reset by User.update()
+        update_data = dict(filtered_body)
+        update_data["email"] = getattr(current_user, "email", None)
+
         # Validate email uniqueness if email is being updated
         if "email" in filtered_body:
             new_email = filtered_body["email"]
@@ -369,8 +373,8 @@ def update_current_user():
                     message=f"Email {new_email} is already in use"
                 )
         
-        # Update user with only allowed fields
-        current_user.update(filtered_body)
+        # Update user with only allowed fields plus preserved email
+        current_user.update(update_data)
         
         return APIResponse.success(
             data=current_user.read(),

@@ -76,7 +76,7 @@ class AuthService:
                 name=name,
                 email=email,
                 uid=unique_uid,
-                password=generate_password_hash(password),
+                password=password,
                 role=role,
                 organization_id=organization_id
             )
