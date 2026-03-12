@@ -7,8 +7,8 @@ This guide shows how to add authentication and role-based access control (RBAC) 
 ### Import Required Modules
 ```python
 from flask import g
-from services.auth_service import token_required, rbac_required, owner_required
-from utils.response import APIResponse
+from model.auth_service import token_required, rbac_required, owner_required
+from model.utils.response import APIResponse
 ```
 
 ### Decorator Patterns
