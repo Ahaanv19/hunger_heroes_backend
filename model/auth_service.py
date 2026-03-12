@@ -64,7 +64,7 @@ class AuthService:
                 name=name,
                 email=email,
                 uid=email.split("@")[0],  # Generate UID from email
-                password=generate_password_hash(password),
+                password=password,
                 role=role,
                 organization_id=organization_id
             )
