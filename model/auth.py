@@ -330,7 +330,8 @@ def update_current_user():
     {
         "name": "Jane Doe" (optional),
         "password": "newpassword123" (optional),
-        "email": "jane@example.com" (optional, only self-update allowed)
+        "email": "jane@example.com" (optional),
+        "pfp": "profile_pic_url" (optional)
     }
     
     Returns:
@@ -349,11 +350,24 @@ def update_current_user():
             return APIResponse.bad_request("At least one field is required for update")
         
         # Whitelist allowed fields for security - prevent user from modifying role or other sensitive fields
-        allowed_fields = {"name", "password", "pfp", "uid"}
+        allowed_fields = {"name", "password", "pfp", "uid", "email"}
         filtered_body = {key: value for key, value in body.items() if key in allowed_fields}
         
         if not filtered_body:
             return APIResponse.bad_request("No valid fields provided for update")
+        
+        # Validate email uniqueness if email is being updated
+        if "email" in filtered_body:
+            new_email = filtered_body["email"]
+            if not new_email or "@" not in new_email:
+                return APIResponse.bad_request("Invalid email format")
+            
+            # Check if email is already taken by another user
+            existing_user = User.query.filter_by(_email=new_email).first()
+            if existing_user and existing_user.id != current_user.id:
+                return APIResponse.conflict(
+                    message=f"Email {new_email} is already in use"
+                )
         
         # Update user with only allowed fields
         current_user.update(filtered_body)
