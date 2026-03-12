@@ -180,7 +180,7 @@ GET http://localhost:5001/api/businesses
 
 ```
 GET http://localhost:5001/api/donation
-Authorization: Bearer <JWT_TOKEN>
+Cookie: jwt=<JWT_TOKEN>
 ```
 
 **Response:**
