@@ -411,6 +411,7 @@ class User(db.Model, UserMixin):
         uid = inputs.get("uid", "")
         password = inputs.get("password", "")
         pfp = inputs.get("pfp", None)
+        email = inputs.get("email", "")
 
         # Update table with new data
         if name:
@@ -421,6 +422,8 @@ class User(db.Model, UserMixin):
             self.set_password(password)
         if pfp is not None:
             self.pfp = pfp
+        if email:
+            self._email = email
 
         # Check this on each update
         self.set_email()
