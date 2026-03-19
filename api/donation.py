@@ -1019,8 +1019,8 @@ api.add_resource(VolunteerAssignAPI, '/donations/<string:donation_id>/assign-vol
 api.add_resource(VolunteerAssignmentsAPI, '/volunteers/<int:volunteer_id>/assignments')
 
 # Week 3 endpoints (Food Safety Compliance)
-api.add_resource(SafetyLogAPI, '/donations/<string:donation_id>/safety-log')
-api.add_resource(SafetyLogAPI, '/donations/<string:donation_id>/safety-logs')  # GET
+api.add_resource(SafetyLogAPI, '/donations/<string:donation_id>/safety-log',
+                 '/donations/<string:donation_id>/safety-logs')
 api.add_resource(SafetyStatusAPI, '/donations/<string:donation_id>/safety-status')
 api.add_resource(AllergenProfileAPI, '/donations/<string:donation_id>/allergens')
 
