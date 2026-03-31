@@ -60,7 +60,14 @@ from model.subscription import Subscription, SubscriptionRequest, PaymentHistory
 from model.donation import Donation, DonationStatusLog, VolunteerAssignment, initDonations
 from model.flag import Flag
 from model.cleanup import start_cleanup_scheduler
+from api.api_logger import setup_api_logging, api_logger, log_endpoint_access
+from api.rate_limiter import add_rate_limit_headers, default_limiter, strict_limiter, admin_limiter, rate_limit
 
+# Initialize API logging
+setup_api_logging(app, log_file='logs/api.log')
+
+# Register rate limit headers to all responses
+app.after_request(add_rate_limit_headers)
 
 # server only View
 
