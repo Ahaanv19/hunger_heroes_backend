@@ -42,6 +42,7 @@ from api.businesses import businesses_api
 from api.donation import donation_api
 from api.analytics import analytics_api
 from api.admin import admin_api
+from api.game_leaderboard import hunger_heroes_api
 # Authentication endpoints
 from model.auth import auth_bp, users_bp
 
@@ -58,6 +59,7 @@ from model.vote import Vote, initVotes
 from model.savedLocations import SavedLocations, initSavedLocations
 from model.subscription import Subscription, SubscriptionRequest, PaymentHistory, RouteUsage, initSubscriptions
 from model.donation import Donation, DonationStatusLog, VolunteerAssignment, initDonations
+from model.game_leaderboard import HungerHeroScore, initLeaderboard
 from model.flag import Flag
 from model.cleanup import start_cleanup_scheduler
 
@@ -90,6 +92,7 @@ app.register_blueprint(businesses_api)
 app.register_blueprint(donation_api)
 app.register_blueprint(analytics_api)
 app.register_blueprint(admin_api)
+app.register_blueprint(hunger_heroes_api)
 # Register authentication blueprints
 app.register_blueprint(auth_bp)
 app.register_blueprint(users_bp)
@@ -247,6 +250,11 @@ def generate_data():
         initDonations()
     except Exception as e:
         print(f"Error in initDonations: {e}")
+
+    try:
+        initLeaderboard()
+    except Exception as e:
+        print(f"Error in initLeaderboard: {e}")
 
 # Backup the old database
 def backup_database(db_uri, backup_uri):
