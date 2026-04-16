@@ -24,3 +24,4 @@ qrcode[pil]
 python-barcode
 Pillow
 reportlab
+marshmallow
